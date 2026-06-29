@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from 'react';
-import { Canvas, extend, useFrame } from '@react-three/fiber';
+import { useRef } from 'react';
+import { Canvas, extend } from '@react-three/fiber';
 import { useGLTF, useTexture, Environment, Lightformer } from '@react-three/drei';
 import { BallCollider, CuboidCollider, Physics, RigidBody, useRopeJoint, useSphericalJoint } from '@react-three/rapier';
 import { MeshLineGeometry, MeshLineMaterial } from 'meshline';
@@ -9,12 +9,12 @@ import * as THREE from 'three';
 
 extend({ MeshLineGeometry, MeshLineMaterial });
 
-export default function Lanyard({ position = [0, 0, 20], gravity = [0, -40, 0] }) {
+export default function Lanyard() {
   return (
-    <div className="absolute inset-0 z-0 flex items-center justify-center pointer-events-none">
-      <Canvas camera={{ position: position, fov: 20 }} dpr={[1, 2]} gl={{ alpha: true }}>
+    <div className="fixed inset-0 z-50 pointer-events-none">
+      <Canvas camera={{ position: [0, 0, 20], fov: 20 }} gl={{ alpha: true }} style={{ pointerEvents: 'auto', width: '100%', height: '100%' }}>
         <ambientLight intensity={Math.PI} />
-        <Physics gravity={gravity} timeStep={1 / 60}>
+        <Physics gravity={[0, -40, 0]} timeStep={1 / 60}>
           <Band />
         </Physics>
         <Environment blur={0.75}>
@@ -38,14 +38,14 @@ function Band() {
   useSphericalJoint(j3, card, [[0, 0, 0], [0, 1.45, 0]]);
 
   return (
-    <group position={[1.5, 4, 0]}> {/* Shifted to the right */}
+    <group position={[3, 2, 0]}>
       <RigidBody ref={fixed} type="fixed" />
       <RigidBody ref={j1} position={[0.5, 0, 0]}><BallCollider args={[0.1]} /></RigidBody>
       <RigidBody ref={j2} position={[1, 0, 0]}><BallCollider args={[0.1]} /></RigidBody>
       <RigidBody ref={j3} position={[1.5, 0, 0]}><BallCollider args={[0.1]} /></RigidBody>
       <RigidBody ref={card} position={[2, 0, 0]}>
         <CuboidCollider args={[0.8, 1.125, 0.01]} />
-        <group scale={2.5} position={[0, -1.2, -0.05]}> {/* Scale 2.5 prevents cropping */}
+        <group scale={3.5} position={[0, -1.2, -0.05]}>
           <mesh geometry={nodes.card.geometry}>
             <meshPhysicalMaterial map={photoTexture} clearcoat={1} roughness={0.3} metalness={0.5} />
           </mesh>
