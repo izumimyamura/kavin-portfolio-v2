@@ -6,13 +6,11 @@ const Lanyard = dynamic(() => import('./components/lanyard'), { ssr: false });
 
 export default function Home() {
   return (
-    <main className="min-h-screen">
-      <div className="h-screen flex flex-col items-center justify-center">
-        <h1 className="text-8xl font-bold tracking-tighter mb-4">Kavin.</h1>
-        <p className="text-xl text-gray-500">Creative Technologist</p>
-        <Lanyard />
+    <main className="relative min-h-screen bg-black overflow-hidden">
+      <div className="absolute inset-0 z-10 pointer-events-none flex flex-col items-center justify-center">
+        <h1 className="text-white text-6xl font-bold">THE CAT GUY</h1>
       </div>
-      {/* Add your skills section here using the structure provided previously */}
+      <Lanyard />
     </main>
   );
 }
