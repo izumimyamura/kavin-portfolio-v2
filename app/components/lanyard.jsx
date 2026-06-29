@@ -1,16 +1,23 @@
 "use client";
 
-import { useEffect, useRef, useState } from 'react';
-import { Canvas, extend, useFrame } from '@react-three/fiber';
-import { useGLTF, useTexture, Environment, Lightformer } from '@react-three/drei';
-import { BallCollider, CuboidCollider, Physics, RigidBody, useRopeJoint, useSphericalJoint } from '@react-three/rapier';
+import { useRef } from 'react';
+import { Canvas, extend } from '@react-three/fiber';
+import { useGLTF, Environment, Lightformer } from '@react-three/drei';
+import { Physics, RigidBody } from '@react-three/rapier';
 import { MeshLineGeometry, MeshLineMaterial } from 'meshline';
 import * as THREE from 'three';
 
 extend({ MeshLineGeometry, MeshLineMaterial });
 
-// Preload the model to prevent build-time reference errors
-useGLTF.preload('/card.glb');
+// Simple Band component to prevent "Band is not defined" error
+function Band() {
+  const { scene } = useGLTF('/card.glb');
+  return (
+    <RigidBody colliders="cuboid">
+      <primitive object={scene} />
+    </RigidBody>
+  );
+}
 
 export default function Lanyard({ position = [0, 0, 20], gravity = [0, -40, 0] }) {
   return (
