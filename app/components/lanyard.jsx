@@ -1,38 +1,65 @@
 "use client";
 
-import { Canvas } from '@react-three/fiber';
+import { useRef } from 'react';
+import { Canvas, extend } from '@react-three/fiber';
 import { useGLTF, Environment, Lightformer } from '@react-three/drei';
-import { Physics, RigidBody } from '@react-three/rapier';
+import { Physics, RigidBody, useSphericalJoint } from '@react-three/rapier';
+import { MeshLineGeometry, MeshLineMaterial } from 'meshline';
 
-function Band({ scale = 0.6 }) {
-  // Ensure the path to your model is correct
+extend({ MeshLineGeometry, MeshLineMaterial });
+
+useGLTF.preload('/card.glb');
+
+function Band({ scale = 0.5 }) {
   const { scene } = useGLTF('/card.glb');
   
+  // Refs for physics connection
+  const fixed = useRef();
+  const card = useRef();
+
+  // Create a joint between an invisible anchor and the card
+  // This allows the card to swing naturally
+  useSphericalJoint(fixed, card, [
+    [0, 1.5, 0],  // Anchor point (slightly above the card)
+    [0, 0, 0]     // Connection point on the card
+  ]);
+
   return (
     <group scale={scale}>
-      {/* Positioned at [0, 0, 0] to be centered in the Canvas */}
-      <RigidBody position={[0, 0, 0]} colliders="cuboid">
+      {/* Invisible fixed point that holds the lanyard */}
+      <RigidBody ref={fixed} type="fixed" position={[0, 5, 0]} />
+      
+      {/* The actual ID Card */}
+      <RigidBody 
+        ref={card} 
+        position={[0, 0, 0]} 
+        colliders="cuboid" 
+        linearDamping={0.5} 
+        angularDamping={0.5}
+      >
         <primitive object={scene} />
       </RigidBody>
     </group>
   );
 }
 
-export default function Lanyard() {
+export default function Lanyard({ position = [0, 0, 15], gravity = [0, -20, 0] }) {
   return (
     <div className="absolute inset-0 z-0 flex items-center justify-center pointer-events-none">
       <Canvas
-        camera={{ position: [0, 0, 10], fov: 45 }} // Pulled back camera for better visibility
+        camera={{ position: position, fov: 20 }}
+        dpr={[1, 2]}
+        gl={{ alpha: true }}
         style={{ pointerEvents: 'auto', width: '100%', height: '100%' }}
       >
-        <ambientLight intensity={1} />
-        <directionalLight position={[10, 10, 5]} intensity={2} />
-        
-        <Physics gravity={[0, 0, 0]}> {/* Gravity 0 keeps it floating in center */}
+        <ambientLight intensity={Math.PI} />
+        <Physics gravity={gravity} timeStep={1 / 60}>
           <Band />
         </Physics>
-        
-        <Environment preset="city" />
+        <Environment blur={0.75}>
+          <Lightformer intensity={2} color="white" position={[0, -1, 5]} rotation={[0, 0, Math.PI / 3]} scale={[100, 0.1, 1]} />
+          <Lightformer intensity={10} color="white" position={[-10, 0, 14]} rotation={[0, Math.PI / 2, Math.PI / 3]} scale={[100, 10, 1]} />
+        </Environment>
       </Canvas>
     </div>
   );
