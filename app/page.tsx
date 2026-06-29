@@ -1,17 +1,18 @@
-
 "use client";
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import dynamic from "next/dynamic";
 
 const Lanyard = dynamic(() => import('./components/lanyard'), { ssr: false });
 
 export default function Home() {
   return (
-    <main className="relative min-h-screen bg-black overflow-hidden">
-      <div className="absolute inset-0 z-10 pointer-events-none flex flex-col items-center justify-center">
-        <h1 className="text-white text-6xl font-bold">THE CAT GUY</h1>
+    <main className="min-h-screen">
+      <div className="h-screen flex flex-col items-center justify-center">
+        <h1 className="text-8xl font-bold tracking-tighter mb-4">Kavin.</h1>
+        <p className="text-xl text-gray-500">Creative Technologist</p>
+        <Lanyard />
       </div>
-      <Lanyard />
+      {/* Add your skills section here using the structure provided previously */}
     </main>
   );
 }
