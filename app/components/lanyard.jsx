@@ -11,8 +11,9 @@ extend({ MeshLineGeometry, MeshLineMaterial });
 
 export default function Lanyard() {
   return (
+    // Fixed position ensures it stays on screen while content scrolls behind it
     <div className="fixed inset-0 z-50 pointer-events-none">
-      <Canvas camera={{ position: [0, 0, 20], fov: 20 }} gl={{ alpha: true }} style={{ pointerEvents: 'auto', width: '100%', height: '100%' }}>
+      <Canvas camera={{ position: [0, 0, 20], fov: 20 }} gl={{ alpha: true }}>
         <ambientLight intensity={Math.PI} />
         <Physics gravity={[0, -40, 0]} timeStep={1 / 60}>
           <Band />
@@ -43,9 +44,16 @@ function Band() {
       <RigidBody ref={j1} position={[0.5, 0, 0]}><BallCollider args={[0.1]} /></RigidBody>
       <RigidBody ref={j2} position={[1, 0, 0]}><BallCollider args={[0.1]} /></RigidBody>
       <RigidBody ref={j3} position={[1.5, 0, 0]}><BallCollider args={[0.1]} /></RigidBody>
-      <RigidBody ref={card} position={[2, 0, 0]}>
+      
+      {/* Set pointerEvents="auto" on the RigidBody to capture mouse drag */}
+      <RigidBody ref={card} position={[2, 0, 0]} colliders={false} type="dynamic">
         <CuboidCollider args={[0.8, 1.125, 0.01]} />
-        <group scale={3.5} position={[0, -1.2, -0.05]}>
+        <group 
+          scale={3.5} 
+          position={[0, -1.2, -0.05]} 
+          onPointerOver={() => document.body.style.cursor = 'grab'}
+          onPointerOut={() => document.body.style.cursor = 'auto'}
+        >
           <mesh geometry={nodes.card.geometry}>
             <meshPhysicalMaterial map={photoTexture} clearcoat={1} roughness={0.3} metalness={0.5} />
           </mesh>
