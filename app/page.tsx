@@ -15,17 +15,14 @@ export default function Home() {
 
   return (
     <main className="relative min-h-screen">
-      {/* Hero Section */}
       <div className="h-screen flex flex-col items-center justify-center">
         <h1 className="text-8xl font-semibold tracking-tighter text-black mb-4">Kavin.</h1>
         <p className="text-xl text-gray-500">Creative Technologist & Editor</p>
         <Lanyard />
       </div>
 
-      {/* Content Section */}
       <section className="max-w-4xl mx-auto px-6 py-24">
         <h2 className="text-5xl font-semibold tracking-tight mb-16">Expertise.</h2>
-        
         <div className="space-y-24">
           {skills.map((skill, idx) => (
             <div key={idx} className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start border-t border-black/10 pt-12">
@@ -33,9 +30,7 @@ export default function Home() {
                 <span className="text-sm font-bold tracking-widest uppercase text-gray-400">{skill.cat}</span>
                 <h3 className="text-3xl font-medium mt-2">{skill.name}</h3>
               </div>
-              <p className="text-lg text-gray-600 leading-relaxed">
-                {skill.desc}
-              </p>
+              <p className="text-lg text-gray-600 leading-relaxed">{skill.desc}</p>
             </div>
           ))}
         </div>
