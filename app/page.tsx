@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import dynamic from "next/dynamic";
 
 const Lanyard = dynamic(() => import('./components/lanyard'), { ssr: false });
