@@ -2,13 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  body {
-    margin: 0;
-    padding: 0;
-    /* Gradient: White top-left, Grey bottom-right */
-    background: radial-gradient(circle at top left, #ffffff, #f0f0f0 40%, #d1d1d1 100%);
-    min-height: 100vh;
-    color: #1d1d1f;
-  }
+app/layout.tsx
+
+import './globals.css'
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en">
+      <body className="bg-black">{children}</body>
+    </html>
+  )
 }
