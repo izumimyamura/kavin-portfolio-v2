@@ -13,7 +13,7 @@ const links = [
   },
   {
     name: "Projects",
-    href: "#projects",
+    href: "https://izumimyamura.github.io/thecatguy.github.io/#showreel",
   },
   {
     name: "Contact",
@@ -53,7 +53,6 @@ export default function Navbar() {
       "
       >
         {/* Logo */}
-
         <a
           href="#hero"
           className="text-lg font-semibold tracking-tight hover:opacity-100"
@@ -62,12 +61,13 @@ export default function Navbar() {
         </a>
 
         {/* Navigation */}
-
         <div className="hidden md:flex items-center gap-7">
           {links.map((link) => (
             <a
               key={link.name}
               href={link.href}
+              target={link.href.startsWith("http") ? "_blank" : undefined}
+              rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
               className="
               text-sm
               text-neutral-300
@@ -82,7 +82,6 @@ export default function Navbar() {
         </div>
 
         {/* CTA */}
-
         <a
           href="#contact"
           className="
