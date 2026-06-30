@@ -1,6 +1,8 @@
 "use client";
 import dynamic from "next/dynamic";
 import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+
 const Lanyard = dynamic(() => import('./components/lanyard'), { ssr: false });
 
 const skills = [
@@ -66,7 +68,7 @@ export default function Home() {
 
       <Navbar />
 
-      {/* Improved Hero Section */}
+      {/* Hero Section */}
       <section className="relative h-screen overflow-hidden">
         <div className="absolute inset-0 z-10 flex flex-col items-center justify-center pointer-events-none">
           <p className="uppercase tracking-[0.35em] text-neutral-500 text-xs mb-5">
@@ -127,6 +129,8 @@ export default function Home() {
           </div>
         ))}
       </section>
+
+      <Footer />
     </main>
   );
 }
