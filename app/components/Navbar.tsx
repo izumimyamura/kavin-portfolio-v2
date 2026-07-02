@@ -16,6 +16,10 @@ const links = [
     href: "https://izumimyamura.github.io/thecatguy.github.io/#showreel",
   },
   {
+    name: "About Me",
+    href: "https://aboutme-catguy-info-b0kl4q3fx-catguy.vercel.app/",
+  },
+  {
     name: "Contact",
     href: "#contact",
   },
